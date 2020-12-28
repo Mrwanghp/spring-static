@@ -1,0 +1,34 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-25 20:22:28
+ * @LastEditTime: 2020-12-28 19:04:21
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \undefinedf:\code\srping-static\src\routes\index.html
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <video id="video" autoplay controls style="height:400px;width: 400px;"></video>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        // https://sina.com-h-sina.com/share/eef76d754e75d784e8f960be345e8d23
+        var video = document.getElementById('video');
+        var video = document.getElementById('video');
+        var videoSrc ="https://sina.com-h-sina.com/20180830/15249_092c0bbc/index.m3u8";
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+        }
+    </script>
+</body>
+
+</html>
