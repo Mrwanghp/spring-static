@@ -9,7 +9,8 @@ function renderTabBar(props) {
     </Sticky>);
   }
 function SeaTab(props) {
-    const { tabs, onTabClick, height, backgroundColor, page } = props;
+    // , height='', backgroundColor, page
+    const { tabs, onTabClick } = props;
     return (
         <div >
             <StickyContainer>

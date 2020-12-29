@@ -1,13 +1,14 @@
 // @ts-nocheck
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'dva';
 import NavBar from '@/components/seaNavBar'
 import Tab from '@/components/seaTab'
 import { Icon } from 'antd-mobile';
 import styles from './index.css';
+import filterPng from '@/assets/filter.png'
 function Index() {
     console.log(styles)
-    const [tabs, setTabs] = useState([
+    const [tabs] = useState([
         { title: '最新' },
         { title: '电影' },
         { title: '连续剧' },
@@ -30,7 +31,7 @@ function Index() {
                     </div>
                     <div style={{flex:1}}>
                         筛选
-                        <Icon type="ellipsis" size="sm" />
+                        <img className={styles.img} src={filterPng} alt=""/>
                     </div>
                 </div> 
             </div>
