@@ -28,8 +28,8 @@ function Index() {
             <div>
                 <div className={styles.list} key={item.vod_id}>
                     <img src={item.vod_pic} alt="" />
-                    <div className={styles.heading}>{item.vod_name}</div>
-                    <div className={styles.Introduction}>{item.vod_blurb}</div>
+                    <div className={styles.heading}>{item.vod_name||'-'}</div>
+                    <div className={styles.Introduction}>{item.vod_blurb||'-'}</div>
                 </div>
             </div>
         );

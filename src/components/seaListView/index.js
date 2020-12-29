@@ -52,7 +52,7 @@ function SeaListView(props) {
         initListData();
     }, [pageNum])
     return (
-        <div >
+        <div style={{marginTop:'.266667rem'}}>
             <ListView
                 dataSource={dataSource.current}
                 renderFooter={() => (<div className={styles.loading}>
