@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Tabs, WhiteSpace } from 'antd-mobile';
+import { Tabs } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import { StickyContainer, Sticky } from 'react-sticky';
 function renderTabBar(props) {
@@ -14,6 +14,7 @@ function SeaTab(props) {
         <div >
             <StickyContainer>
                 <Tabs
+                    tabBarUnderlineStyle={{display: 'none'}}
                     onTabClick={onTabClick}
                     tabs={tabs}
                     initialPage={'t2'}
@@ -21,7 +22,6 @@ function SeaTab(props) {
                 >
                 </Tabs>
             </StickyContainer>
-            <WhiteSpace />
         </div>
     );
 }

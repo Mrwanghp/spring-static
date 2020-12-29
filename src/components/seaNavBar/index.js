@@ -9,7 +9,7 @@ function SeaNavBar(props) {
             <NavBar
                 icon={icon && <Icon type={icon} />}
                 onLeftClick={navbarClick}
-                mode="dark"
+                mode="light"
                 rightContent={[slot && slot()]}
             >{title}</NavBar>
         </div>

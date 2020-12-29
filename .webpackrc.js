@@ -7,7 +7,7 @@ export default {
             pathRewrite: { '^/api': '' }
         }
     },
-    disableCSSModules: true,
+    disableCSSModules: false,
     extraBabelPlugins: [
         ["import", { "libraryName": "antd-mobile", "libraryDirectory": "es", "style": "css" }]
     ]
