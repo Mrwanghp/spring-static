@@ -1,15 +1,15 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
-import index from '@/pages/index';
-import tabBar from '@/pages/tabBarPage';;
-
+import detail from '@/pages/detail';
+import tabBar from '@/pages/tabBarPage';
+import { CacheSwitch, CacheRoute } from 'react-cache-router';	 //所需包
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Switch>
-        <Route path="/" exact component={tabBar} />
-        <Route path="/index" exact component={index} />
-      </Switch>
+      <CacheSwitch>
+        <CacheRoute path="/" exact component={tabBar} />
+        <Route path="/detail" component={detail} />
+      </CacheSwitch>
     </Router>
   );
 }

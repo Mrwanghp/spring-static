@@ -8,12 +8,18 @@
  */
 
 import React, { useState } from 'react';
-import { TabBar } from 'antd-mobile';
+import { TabBar,Toast } from 'antd-mobile';
 import { connect } from 'dva';
+import mine from '@/assets/mine.png';
+import mineActive from '@/assets/mine-active.png';
+import index from '@/assets/index.png';
+import indexActive from '@/assets/index-active.png';
+import IndexPage from '@/pages/index'
 function tabBarPage() {
-  const [selectedTab, setSelectedTab] = useState('redTab');
+  const [selectedTab, setSelectedTab] = useState('blueTab');
   return (
     <div >
+      <img src="" alt=""/>
     <div style={{position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
           unselectedTintColor="#949494"
@@ -22,27 +28,27 @@ function tabBarPage() {
           hidden={false}
         >
           <TabBar.Item
-            title="Life"
+            title="首页"
             key="Life"
-            // icon={}
-            // selectedIcon={}
+            icon={ <img style={{width: '.6rem' }} src={index} alt=""/>}
+            selectedIcon={<img style={{width: '.6rem' }} src={indexActive} alt=""/>}
             selected={selectedTab === 'blueTab'}
-            badge={1}
             onPress={() => {
                 setSelectedTab('blueTab')
             }}
             data-seed="logId"
           >
-            133223321
+            <IndexPage/>
           </TabBar.Item>
           <TabBar.Item
-            // icon={ }
-            // selectedIcon={ }
-            title="Koubei"
+            icon={ <img style={{width: '.6rem' }} src={mine} alt=""/>}
+            selectedIcon={ <img style={{width: '.6rem' }} src={mineActive} alt=""/>}
+            title="我的"
             key="Koubei"
-            badge={'new'}
             selected={selectedTab === 'redTab'}
             onPress={() => {
+                Toast.fail('功能暂未开放！', 1);
+                return;
                 setSelectedTab('redTab')
             }}
             data-seed="logId1"

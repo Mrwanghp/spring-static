@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { connect } from 'dva';
+import { withRouter, routerRedux } from 'dva/router';
 import NavBar from '@/components/seaNavBar';
 import Tab from '@/components/seaTab';
 import SeaListView from '@/components/seaListView';
@@ -8,28 +9,37 @@ import { Icon } from 'antd-mobile';
 import styles from './index.less';
 import filterPng from '@/assets/filter.png';
 import { videoList } from '@/services/list';
-function Index() {
+function Index(props) {
     const [tabs] = useState([
-        { title: '最新' },
-        { title: '电影' },
-        { title: '连续剧' },
-        { title: '动漫' },
-        { title: '综艺' },
-        { title: '资讯' }
+        // { title: '最新', type_id: 0 },
+        { title: '电影', type_id: 6 },
+        { title: '连续剧', type_id: 12 },
+        { title: '综艺', type_id: 25 },
+        { title: '动漫', type_id: 29 },
+        { title: '资讯', type_id: 35 }
     ]);
+    const [typeId, setTypeId] = useState(0);
     const params = {
         ac: 'detail',
-        t: '',
-        h: '10'
+        t: typeId || '',
+        h: !typeId ? '10' : '',
     }
-    const onTabClick = (e) => {}
+    const onTabClick = (item) => {
+        setTypeId(item.type_id)
+    };
+    const toDetail = (item) => {
+        props.dispatch(routerRedux.push({
+            pathname: '/detail',
+            state: { id: item.vod_id }
+        }))
+    }
     const renderListDom = (item) => {
         return (
-            <div>
+            <div onClick={() => { toDetail(item) }}>
                 <div className={styles.list} key={item.vod_id}>
                     <img src={item.vod_pic} alt="" />
-                    <div className={styles.heading}>{item.vod_name||'-'}</div>
-                    <div className={styles.Introduction}>{item.vod_blurb||'-'}</div>
+                    <div className={styles.heading}>{item.vod_name || '-'}</div>
+                    <div className={styles.Introduction}>{item.vod_blurb || '-'}</div>
                 </div>
             </div>
         );
@@ -58,4 +68,4 @@ function Index() {
 Index.propTypes = {
 };
 
-export default connect()(Index);
+export default withRouter(connect()(Index));

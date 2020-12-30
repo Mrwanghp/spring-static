@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { PullToRefresh, ListView } from 'antd-mobile';
 function SeaListView(props) {
-    const { params, slot, requset, height} = props;
+    const { params, slot, requset, height } = props;
     const orgList = useRef([]);
     const [pageNum, setPageNum] = useState(1);
     const [downLoading, setDownLoading] = useState(true); // 下拉loading
@@ -27,7 +27,7 @@ function SeaListView(props) {
     const initListData = async () => {
         setNoRepeat(true);
         try {
-            const paramsdata = {...params, pg:pageNum}
+            const paramsdata = { ...params, pg: pageNum }
             const { data } = await requset(paramsdata);
             if (data.list.length < 1) {
                 setDownLoading(false);
@@ -50,12 +50,12 @@ function SeaListView(props) {
         setDownLoading(true);
         setUpLoading(true);
         initListData();
-    }, [pageNum])
+    }, [pageNum, params.t])
     return (
-        <div style={{marginTop:'.266667rem'}}>
+        <div style={{ marginTop: '.266667rem' }}>
             <ListView
                 dataSource={dataSource.current}
-                renderFooter={() => (<div className={styles.loading}>
+                renderFooter={() => (orgList.current.length > 24 && <div className={styles.loading}>
                     {downLoading ? '加载中...' : '哎呀，到底了'}
                 </div>)}
                 renderRow={slot}
@@ -83,6 +83,6 @@ SeaListView.propTypes = {
     slot: PropTypes.func,
 }
 SeaListView.defaultProps = {
-    height: '65vh'
+    height: '73vh'
 }
 export default connect()(SeaListView);
