@@ -8,7 +8,7 @@
  */
 
 import React, { useState } from 'react';
-import { TabBar,Toast } from 'antd-mobile';
+import { TabBar, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import mine from '@/assets/mine.png';
 import mineActive from '@/assets/mine-active.png';
@@ -19,8 +19,8 @@ function tabBarPage() {
   const [selectedTab, setSelectedTab] = useState('blueTab');
   return (
     <div >
-      <img src="" alt=""/>
-    <div style={{position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+      <img src="" alt="" />
+      <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
@@ -30,30 +30,30 @@ function tabBarPage() {
           <TabBar.Item
             title="首页"
             key="Life"
-            icon={ <img style={{width: '.6rem' }} src={index} alt=""/>}
-            selectedIcon={<img style={{width: '.6rem' }} src={indexActive} alt=""/>}
+            icon={<img style={{ width: '.6rem', height: '.6rem' }} src={index} alt="" />}
+            selectedIcon={<img style={{ width: '.6rem', height: '.6rem' }} src={indexActive} alt="" />}
             selected={selectedTab === 'blueTab'}
             onPress={() => {
-                setSelectedTab('blueTab')
+              setSelectedTab('blueTab')
             }}
             data-seed="logId"
           >
-            <IndexPage/>
+            <IndexPage />
           </TabBar.Item>
           <TabBar.Item
-            icon={ <img style={{width: '.6rem' }} src={mine} alt=""/>}
-            selectedIcon={ <img style={{width: '.6rem' }} src={mineActive} alt=""/>}
+            icon={<img style={{ width: '.6rem', height: '.6rem' }} src={mine} alt="" />}
+            selectedIcon={<img style={{ width: '.6rem', height: '.6rem' }} src={mineActive} alt="" />}
             title="我的"
             key="Koubei"
             selected={selectedTab === 'redTab'}
             onPress={() => {
-                Toast.fail('功能暂未开放！', 1);
-                return;
-                setSelectedTab('redTab')
+              Toast.fail('功能暂未开放！', 1);
+              return;
+              setSelectedTab('redTab')
             }}
             data-seed="logId1"
           >
-          18188484484884
+            18188484484884
           </TabBar.Item>
         </TabBar>
       </div>

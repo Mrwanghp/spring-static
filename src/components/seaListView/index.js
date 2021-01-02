@@ -7,6 +7,7 @@ function SeaListView(props) {
     const { params, slot, requset, height } = props;
     const orgList = useRef([]);
     const [pageNum, setPageNum] = useState(1);
+    const [initLoading, setInitLoading] = useState(true); // 初始化加载loading
     const [downLoading, setDownLoading] = useState(true); // 下拉loading
     const [upLoading, setUpLoading] = useState(true); // 上拉加载loading
     const [noRepeat, setNoRepeat] = useState(false); //防止重复加载
@@ -22,12 +23,12 @@ function SeaListView(props) {
     const onRefresh = () => {
         setPageNum(1)
         setUpLoading(true);
-        initListData();
+        pageNum === 1 && initListData();
     };
     const initListData = async () => {
         setNoRepeat(true);
         try {
-            const paramsdata = { ...params, pg: pageNum }
+            const paramsdata = { ...params, pg: pageNum };
             const { data } = await requset(paramsdata);
             if (data.list.length < 1) {
                 setDownLoading(false);
@@ -41,37 +42,41 @@ function SeaListView(props) {
                 orgList.current = [...orgList.current, ...data.list];
             }
         } catch (e) {
-            throw (e)
+            throw (e);
         }
         setUpLoading(false);
         setNoRepeat(false);
+        setInitLoading(false);
     };
     useEffect(() => {
         setDownLoading(true);
         setUpLoading(true);
         initListData();
-    }, [pageNum, params.t])
+    }, [pageNum])
     return (
         <div style={{ marginTop: '.266667rem' }}>
-            <ListView
-                dataSource={dataSource.current}
-                renderFooter={() => (orgList.current.length > 24 && <div className={styles.loading}>
-                    {downLoading ? '加载中...' : '哎呀，到底了'}
-                </div>)}
-                renderRow={slot}
-                style={{
-                    height,
-                    overflow: 'auto',
-                }}
-                pageSize={10}
-                pullToRefresh={<PullToRefresh
-                    refreshing={upLoading}
-                    onRefresh={onRefresh}  //下拉刷新
-                />}
-                scrollRenderAheadDistance={500}  //当一个行接近屏幕范围多少像素之内的时候，就开始渲染这一行
-                onEndReached={onEndReached} //上拉加载
-                onEndReachedThreshold={20} //调用onEndReached之前的临界值，单位是像素
-            />
+            {
+                initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
+                    <ListView
+                        dataSource={dataSource.current}
+                        renderFooter={() => (orgList.current.length > 24 && <div className={styles.downloading}>
+                            {downLoading ? '加载中...' : '哎呀，到底了'}
+                        </div>)}
+                        renderRow={slot}
+                        style={{
+                            height,
+                            overflow: 'auto',
+                        }}
+                        pageSize={10}
+                        pullToRefresh={<PullToRefresh
+                            refreshing={upLoading}
+                            onRefresh={onRefresh}  //下拉刷新
+                        />}
+                        scrollRenderAheadDistance={500}  //当一个行接近屏幕范围多少像素之内的时候，就开始渲染这一行
+                        onEndReached={onEndReached} //上拉加载
+                        onEndReachedThreshold={20} //调用onEndReached之前的临界值，单位是像素
+                    />
+            }
         </div>
     );
 }
@@ -83,6 +88,6 @@ SeaListView.propTypes = {
     slot: PropTypes.func,
 }
 SeaListView.defaultProps = {
-    height: '73vh'
+    height: '80vh'
 }
 export default connect()(SeaListView);

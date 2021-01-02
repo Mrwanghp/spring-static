@@ -18,7 +18,7 @@ function SeaTab(props) {
                     tabBarUnderlineStyle={{display: 'none'}}
                     onTabClick={onTabClick}
                     tabs={tabs}
-                    initialPage={'t2'}
+                    initialPage={0}
                     renderTabBar={renderTabBar}
                 >
                 </Tabs>

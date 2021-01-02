@@ -29,7 +29,7 @@ function Detail(props) {
         setUrlList(arr);
         iframeOnload();
     }
-    const switchUrl = (item, index) => {
+    const switchUrl = (index) => {
         setCurIndex(index);
     }
     const iframeOnload = () => {
