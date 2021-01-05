@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator } from "antd-mobile";
+import { Icon } from 'antd-mobile';
 import SeaPlayer from "@/components/seaPlayer";
 import { connect } from "dva";
 import styles from "./index.less";
@@ -9,11 +9,7 @@ function Detail(props) {
   const vodId = props.location.search.split('?')[1].split('=')[1];
   const [urlList, setUrlList] = useState([]);
   const [curIndex, setCurIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [detialData, setDetialData] = useState({});
-  const backPage = () => {
-    props.history.push("/");
-  };
   const initDetailData = async () => {
     const params = { ids: vodId, ac: "detail" };
     const { data } = await videoList(params);
@@ -29,34 +25,35 @@ function Detail(props) {
   };
   const switchUrl = (index) => {
     setCurIndex(index);
-    console.log(index)
   };
   const ended = () => {
-    setCurIndex(curIndex+1);
+    setCurIndex(curIndex + 1);
   }
   useEffect(() => {
     initDetailData();
   }, []);
+  const List = () => {
+    return <div className="flex flex-wrap">
+      {urlList.map((item, index) => (
+        <div
+          key={index}
+          className={`${styles.tvlist} ${
+            index === curIndex ? styles.active : ""
+            }`}
+          onClick={() => switchUrl(index)}
+        >
+          {item.name}
+        </div>
+      ))}
+    </div>
+  }
   return (
     <div>
-      {/* <NavBar title="详情" icon="left" navbarClick={backPage}></NavBar> */}
-      {urlList.length && <SeaPlayer url={urlList[curIndex].url} pic={detialData.vod_pic} ended={ended} />}
-      {!loading && (
+      {Boolean(urlList.length) && <SeaPlayer url={urlList[curIndex].url} pic={detialData.vod_pic} ended={ended} />}
+      {(
         <div>
           <div className={styles.title}>{detialData.vod_name}</div>
-            <div className="flex flex-wrap">
-              {urlList.map((item, index) => (
-                <div
-                  key={index}
-                  className={`${styles.tvlist} ${
-                    index === curIndex ? styles.active : ""
-                  }`}
-                  onClick={() => switchUrl(index)}
-                >
-                  {item.name}
-                </div>
-              ))}
-            </div>
+          <List/>
         </div>
       )}
     </div>

@@ -5,7 +5,7 @@ import { withRouter, routerRedux } from 'dva/router';
 // import NavBar from '@/components/seaNavBar';
 import Tab from '@/components/seaTab';
 import SeaListView from '@/components/seaListView';
-// import SeaDrawer from '@/components/seaDrawer';
+import SeaDrawer from '@/components/seaDrawer';
 import { Icon } from 'antd-mobile';
 import styles from './index.less';
 import filterPng from '@/assets/filter.png';
@@ -19,6 +19,7 @@ function Index(props) {
         { title: '动漫', key: 29 },
         { title: '资讯', key: 36 }
     ]);
+    const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(0);
     const [refresh, setRefresh] = useState(false);
     const [searchVal, setSearchVal] = useState('');
@@ -60,7 +61,6 @@ function Index(props) {
     }, [refresh]);
     return (
         <div >
-            {/* <NavBar title="首页" ></NavBar> */}
             <Tab tabs={tabs} onTabClick={onTabClick} />
             <div className={styles.content}>
                 <div className="flex space-between" style={{ position: 'relative' }}>
@@ -76,9 +76,9 @@ function Index(props) {
                         <Icon className={styles['icon-seatch']} type="search" color="#999999" size="xs" />
                     </div>
                     <div className={styles.filter}>
-                        <span >筛选</span>
+                        <span>筛选</span>
                         <img className={styles.img} src={filterPng} alt="" />
-                    {/* <SeaDrawer/> */}
+                        {<SeaDrawer/>}
                     </div>
                 </div>
                 {!refresh && <SeaListView requset={videoList} slot={renderListDom} params={params} />}

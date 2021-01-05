@@ -15,7 +15,6 @@
     "react": "^16.2.0",
     "react-cache-router": "^1.1.0",
     "react-dom": "^16.2.0",
-    "react-player": "^2.7.2",
     "react-sticky": "^6.0.3"
   },
   "devDependencies": {
