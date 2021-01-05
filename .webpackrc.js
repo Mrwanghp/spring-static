@@ -2,7 +2,7 @@ var path = require('path');
 export default {
     proxy: {
         '/api': {
-            target: 'http://47.100.79.170/',
+            target: 'http://seapeng.com/',
             changeOrigin: true,
             pathRewrite: { '^/api': '' }
         }

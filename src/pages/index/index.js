@@ -13,11 +13,11 @@ import { videoList } from '@/services/list';
 function Index(props) {
     const [tabs] = useState([
         { title: '全部', key: 0 },
-        { title: '电影', key: 6 },
-        { title: '连续剧', key: 12 },
+        { title: '电影', key: 7 },
+        { title: '连续剧', key: 13 },
         { title: '综艺', key: 25 },
         { title: '动漫', key: 29 },
-        { title: '资讯', key: 35 }
+        { title: '资讯', key: 36 }
     ]);
     const [typeId, setTypeId] = useState(0);
     const [refresh, setRefresh] = useState(false);
@@ -35,7 +35,7 @@ function Index(props) {
     const toDetail = (item) => {
         props.dispatch(routerRedux.push({
             pathname: '/detail',
-            state: { id: item.vod_id }
+            search: `id=${item.vod_id}`
         }))
     };
     const setValue = (event) => {
