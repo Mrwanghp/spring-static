@@ -45,6 +45,15 @@ function Index(props) {
     const search = (event) => {
         event.keyCode === 13 && setRefresh(true);
     }
+    //open弹框
+    const drawerTab = () => {
+        setOpen(true)
+    }
+    const slot = () => {
+        return(
+            <div>暂无数据</div> 
+        )
+    }
     const renderListDom = (item) => {
         return (
             <div onClick={() => { toDetail(item) }}>
@@ -75,10 +84,10 @@ function Index(props) {
                         </input>
                         <Icon className={styles['icon-seatch']} type="search" color="#999999" size="xs" />
                     </div>
-                    <div className={styles.filter}>
+                    <div className={styles.filter} onClick={drawerTab}>
                         <span>筛选</span>
                         <img className={styles.img} src={filterPng} alt="" />
-                        {<SeaDrawer/>}
+                        <SeaDrawer open={open} Slot={slot} callback={()=>{setOpen(false)}}/>
                     </div>
                 </div>
                 {!refresh && <SeaListView requset={videoList} slot={renderListDom} params={params} />}

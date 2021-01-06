@@ -1,24 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaDrawer(props) {
-    const { open, slot, change, height, position } = props;
-    console.log(open)
+    const { open, Slot, callback, position, height } = props;
+    const close = (event) => {
+        event.stopPropagation();
+        callback();
+    }
     return (
-        <div>44151515</div>
+        <div onClick={close} className={styles.popup} style={{width:open ? '100%': '0%'}}>
+			<div 
+                onClick={(event)=>{event.stopPropagation()}} 
+                className={styles.popupContent} 
+                style={{height:open ? height : '0%'}}
+            >
+				<Slot/>
+			</div>
+		</div>
     );
 }
 
 SeaDrawer.propTypes = {
     open: PropTypes.bool,
-    change: PropTypes.func,
+    callback: PropTypes.func,
     height: PropTypes.string,
     position: PropTypes.string,
 };
 SeaDrawer.defaultProps = {
     open: false,
-    height: '85vh',
+    height: '40%',
     position: 'left'
 }
 export default connect()(SeaDrawer);
