@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Icon } from "antd-mobile";
+import { ActivityIndicator } from "antd-mobile";
 import SeaPlayer from "@/components/seaPlayer";
 import SeaDrawer from "@/components/seaDrawer";
 import { connect } from "dva";
@@ -8,11 +8,14 @@ import { videoList } from "@/services/list";
 function Detail(props) {
   console.log(props);
   const vodId = props.location.search.split("?")[1].split("=")[1];
+  const [loading, setLoading] = useState(false);
   const [urlList, setUrlList] = useState([]);
   const [curIndex, setCurIndex] = useState(0);
   const [detialData, setDetialData] = useState({});
   const [open, setOpen] = useState(false);
+  // init
   const initDetailData = async () => {
+    setLoading(true);
     const params = { ids: vodId, ac: "detail" };
     const { data } = await videoList(params);
     const url = data.list[0].vod_play_url;
@@ -21,8 +24,8 @@ function Detail(props) {
       const [name, url] = item.split("$");
       return { name, url };
     });
-    console.log(arr);
     setDetialData(data.list[0]);
+    setLoading(false);
     setUrlList(arr);
   };
   const switchUrl = (index) => {
@@ -44,26 +47,25 @@ function Detail(props) {
         <div>
           <img src={detialData.vod_pic} alt="" />
           <div className={styles.content_right}>
-            <div className={styles.titleName}>神奇女侠</div>
-            <div className={styles.text}>主演：陈家华</div>
-            <div className={styles.text}>类型：陈家华</div>
+            <div className={styles.titleName}>{detialData.vod_name}</div>
+            <div className={styles.text}>主演：{detialData.vod_actor}</div>
+            <div className={styles.text}>类型：{detialData.type_name}</div>
             <div className={styles.text}>
-              <span>导演：王海朋</span>
-              <span style={{float: "right" }}>
-                地区：日本
+              <span>导演：{detialData.vod_director}</span>
+              <span style={{ float: "right" }}>
+                地区：{detialData.vod_area}
               </span>
             </div>
             <div className={styles.text}>
-              <span>年份：2023</span>
-              <span style={{float: "right" }}>
-                语言：英语
+              <span>年份：{detialData.vod_year}</span>
+              <span style={{ float: "right" }}>
+                语言：{detialData.vod_lang}
               </span>
             </div>
           </div>
         </div>
-        <div className="clear">
-          <div className={styles.content_text}>内容介绍</div>
-          <div className={styles.inner}>内容</div>
+        <div className={`clear ${styles.inner}`}>
+          <div className={styles.inner_text}>{detialData.vod_content}</div>
         </div>
       </div>
     );
@@ -74,10 +76,9 @@ function Detail(props) {
         {urlList.map((item, index) => (
           <div
             key={index}
-            className={`${styles.tvlist} ${
-              index === curIndex ? styles.active : ""
-            }`}
             onClick={() => switchUrl(index)}
+            className={`${styles.tvlist} ${
+              index === curIndex ? styles.active : ""}`}
           >
             {item.name}
           </div>
@@ -87,6 +88,7 @@ function Detail(props) {
   };
   return (
     <div>
+      <ActivityIndicator toast={true} text="拼命加载中..." animating={loading} />
       {Boolean(urlList.length) && (
         <SeaPlayer
           url={urlList[curIndex].url}
@@ -96,9 +98,9 @@ function Detail(props) {
       )}
       <div>
         <div className={styles.title}>
-          {detialData.vod_name}
+          <span>{detialData.vod_name}</span>
           <span onClick={drawerTab} className={styles.introduction}>
-            简介>
+            {detialData.vod_name && '简介>'}
           </span>
         </div>
         <SeaDrawer

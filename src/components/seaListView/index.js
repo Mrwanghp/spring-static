@@ -27,22 +27,22 @@ function SeaListView(props) {
     };
     const initListData = async () => {
         setNoRepeat(true);
-        try {
-            const paramsdata = { ...params, pg: pageNum };
-            const { data } = await requset(paramsdata);
-            if (data.list.length < 1) {
-                setDownLoading(false);
-                return;
-            }
+        const paramsdata = { ...params, pg: pageNum };
+        const { data } = await requset(paramsdata);
+        if (pageNum === 1 && !data.list.length) {
+            setInitLoading(false);
+        }
+        if (!data.list.length) {
+            setDownLoading(false);
+        } else {
             if (pageNum === 1) {
                 dataSource.current = dataSource.current.cloneWithRows(data.list);
                 orgList.current = data.list;
+                console.log(orgList.current)
             } else {
                 dataSource.current = dataSource.current.cloneWithRows([...orgList.current, ...data.list]);
                 orgList.current = [...orgList.current, ...data.list];
             }
-        } catch (e) {
-            throw (e);
         }
         setUpLoading(false);
         setNoRepeat(false);
@@ -55,6 +55,7 @@ function SeaListView(props) {
     }, [pageNum])
     return (
         <div style={{ marginTop: '.266667rem' }}>
+            {!initLoading && !orgList.current.length && <div style={{ textAlign: 'center' }}>哎呀 好像没找到您想看的</div>}
             {
                 initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
                     <ListView
