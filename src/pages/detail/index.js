@@ -45,21 +45,21 @@ function Detail(props) {
     return (
       <div className={styles.content}>
         <div>
-          <img src={detialData.vod_pic} alt="" />
+          <img src={detialData.vod_pic||'-'} alt="" />
           <div className={styles.content_right}>
-            <div className={styles.titleName}>{detialData.vod_name}</div>
-            <div className={styles.text}>主演：{detialData.vod_actor}</div>
-            <div className={styles.text}>类型：{detialData.type_name}</div>
+            <div className={styles.titleName}>{detialData.vod_name||'-'}</div>
+            <div className={styles.text}>主演：{detialData.vod_actor||'-'}</div>
+            <div className={styles.text}>类型：{detialData.type_name||'-'}</div>
             <div className={styles.text}>
-              <span>导演：{detialData.vod_director}</span>
+              <span>导演：{detialData.vod_director||'-'}</span>
               <span style={{ float: "right" }}>
-                地区：{detialData.vod_area}
+                地区：{detialData.vod_area||'-'}
               </span>
             </div>
             <div className={styles.text}>
-              <span>年份：{detialData.vod_year}</span>
+              <span>年份：{detialData.vod_year||'-'}</span>
               <span style={{ float: "right" }}>
-                语言：{detialData.vod_lang}
+                语言：{detialData.vod_lang||'-'}
               </span>
             </div>
           </div>

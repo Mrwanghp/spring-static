@@ -39,9 +39,6 @@ function Index(props) {
             search: `id=${item.vod_id}`
         }))
     };
-    const setValue = (event) => {
-        setSearchVal(event.target.value)
-    }
     const search = (event) => {
         event.keyCode === 13 && setRefresh(true);
     }
@@ -77,7 +74,7 @@ function Index(props) {
                         <input
                             onKeyDown={search}
                             value={searchVal}
-                            onChange={setValue}
+                            onChange={(event)=>{setSearchVal(event.target.value)}}
                             className={styles.search}
                             type="search"
                             placeholder="请输入">

@@ -4809,7 +4809,6 @@ history@^4.6.3, history@^4.7.2:
 hls.js@^0.14.17:
   version "0.14.17"
   resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.14.17.tgz#0127cff2ec2f994a54eb955fe669ef6153a8e317"
-  integrity sha512-25A7+m6qqp6UVkuzUQ//VVh2EEOPYlOBg32ypr34bcPO7liBMOkKFvbjbCBfiPAOTA/7BSx1Dujft3Th57WyFg==
   dependencies:
     eventemitter3 "^4.0.3"
     url-toolkit "^2.1.6"
@@ -8038,7 +8037,6 @@ react-dom@^16.2.0, react-dom@^16.3.0:
 react-dplayer@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/react-dplayer/-/react-dplayer-0.4.2.tgz#f612f8a1a894a856d213b6921f58988dd1310819"
-  integrity sha512-UnI6KaAsnGtP6MSz79lGCAEZko+j0DcKgwfNATtQJL/T/zRs1t3ZJDT/ymbCquuU1e3fADn0Cww1gpNJ3K2TiQ==
   dependencies:
     "@types/dplayer" "^1.25.0"
     clsx "^1.1.0"

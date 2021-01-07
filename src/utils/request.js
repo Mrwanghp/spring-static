@@ -26,7 +26,7 @@ const data = {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  const urls = (window.location.host).includes('localhost') ? '/api'+url : url;
+  const urls = (window.location.host).includes('localhost') ? '/api' + url : url;
   return fetch(urls, {...options,...data})
     .then(checkStatus)
     .then(parseJSON)
