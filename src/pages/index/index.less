@@ -50,15 +50,30 @@
     margin-right: .16rem /* 12/75 */ /* 18/75 */;
     margin-top: .4rem /* 30/75 */;
     float: left;
+    position: relative;
     img{
         width: 2.933333rem /* 220/75 */;
         height: 3.64rem /* 273/75 */;
+        border-radius: .2rem;
+        box-shadow: 0  .066667rem  .066667rem #ccc;
     }
     div{
         max-width:   2.906667rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+    .sub{
+        position: absolute;
+        right: 0;
+        top: 0;
+        /* color: #fff; */
+        /* font-weight: 700; */
+        display: block;
+        padding: 0 .2rem ;
+        background: #108ee9;
+        color: #fff;
+        border-radius: 0 .25rem 0 .4rem;
     }
     .heading{
         font-size: .4rem /* 30/75 */;

@@ -13,10 +13,10 @@ import { videoList } from '@/services/list';
 function Index(props) {
     const [tabs] = useState([
         { title: '全部', key: 0 },
-        { title: '电影', key: 7 },
+        { title: '电影', key: 9 },
         { title: '连续剧', key: 13 },
         { title: '综艺', key: 25 },
-        { title: '动漫', key: 29 },
+        { title: '动漫', key: 30 },
         { title: '资讯', key: 36 }
     ]);
     const [open, setOpen] = useState(false);
@@ -56,6 +56,7 @@ function Index(props) {
             <div onClick={() => { toDetail(item) }}>
                 <div className={styles.list} key={item.vod_id}>
                     <img src={item.vod_pic} alt="" />
+                    <div className={styles.sub}>{item.vod_remarks}</div>
                     <div className={styles.heading}>{item.vod_name || '-'}</div>
                     <div className={styles.Introduction}>{item.vod_blurb || '-'}</div>
                 </div>
