@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'dva';
 import { Tabs } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import { StickyContainer, Sticky } from 'react-sticky';
@@ -39,4 +38,4 @@ SeaTab.defaultProps = {
     backgroundColor: '#fff',
     page: 4
 }
-export default connect()(SeaTab);
+export default SeaTab;

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { connect } from "dva";
 import PropTypes from "prop-types";
 import Hls from "hls.js";
 import DPlayer from "react-dplayer";
@@ -57,4 +56,4 @@ SeaNavBar.propTypes = {
   ended: PropTypes.func,
   error: PropTypes.func,
 };
-export default connect()(SeaNavBar);
+export default SeaNavBar;

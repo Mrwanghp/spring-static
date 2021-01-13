@@ -6,39 +6,44 @@ import { withRouter, routerRedux } from 'dva/router';
 import Tab from '@/components/seaTab';
 import SeaListView from '@/components/seaListView';
 import SeaDrawer from '@/components/seaDrawer';
+import FilterList from './filterList';
 import { Icon } from 'antd-mobile';
 import styles from './index.less';
 import filterPng from '@/assets/filter.png';
-import { videoList } from '@/services/list';
+import { videoList, tabList, getValueSet } from '@/services/list';
 function Index(props) {
     const [tabs] = useState([
         { title: '全部', key: 0 },
-        { title: '电影', key: 9 },
-        { title: '连续剧', key: 13 },
-        { title: '综艺', key: 25 },
-        { title: '动漫', key: 30 },
-        { title: '资讯', key: 36 }
+        { title: '电影', key: '1,6,7,8,9,10,11,12' },
+        { title: '连续剧', key: '13,14,15,16,20,21,22,23,24' },
+        { title: '综艺', key: '25,26,27,28' },
+        { title: '动漫', key: '29,30,31,32,33' },
+        { title: '资讯', key: '17,18,35,36' }
     ]);
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(0);
+    const [typeName, setTypeName] = useState('');
+    const [typeList, useTypeList] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [searchVal, setSearchVal] = useState('');
     const params = {
-        ac: 'detail',
-        t: typeId || '',
-        wd: searchVal || ''
+        type_id: typeId || '',
+        name: searchVal || ''
     };
-    const onTabClick = (item) => {
-        setTypeId(item.key);
-        setSearchVal('');
-        setRefresh(true);
-    };
+    // 跳转详情
     const toDetail = (item) => {
         props.dispatch(routerRedux.push({
             pathname: '/detail',
             search: `id=${item.vod_id}`
         }))
     };
+    //初始化筛选列表
+    const initFilterList = async () => {
+        const list = [getValueSet(),tabList()];
+        const data = await Promise.all(list)
+        useTypeList(data)
+    }
+    // 搜索
     const search = (event) => {
         event.keyCode === 13 && setRefresh(true);
     }
@@ -46,11 +51,22 @@ function Index(props) {
     const drawerTab = () => {
         setOpen(true)
     }
-    const slot = () => {
-        return(
-            <div>暂无数据</div> 
-        )
-    }
+    // tab点击
+    const onTabClick = (item) => {
+        setSearchVal('');
+        setTypeId(item.key);
+        setTypeName(item.title)
+        setRefresh(true);
+    };
+    // init筛选子类
+    useEffect(() => {
+        initFilterList();
+    }, []);
+    // 刷新ref
+    useEffect(() => {
+        refresh && setTimeout(() => setRefresh(false)) ;
+    }, [refresh]);
+    // 列表dom
     const renderListDom = (item) => {
         return (
             <div onClick={() => { toDetail(item) }}>
@@ -63,9 +79,6 @@ function Index(props) {
             </div>
         );
     };
-    useEffect(() => {
-        refresh && setTimeout(() => setRefresh(false))
-    }, [refresh]);
     return (
         <div >
             <Tab tabs={tabs} onTabClick={onTabClick} />
@@ -85,7 +98,7 @@ function Index(props) {
                     <div className={styles.filter} onClick={drawerTab}>
                         <span>筛选</span>
                         <img className={styles.img} src={filterPng} alt="" />
-                        <SeaDrawer open={open} Slot={slot} callback={()=>{setOpen(false)}}/>
+                        <SeaDrawer open={open} Slot={()=> typeList.length && <FilterList list={typeList} type={typeName}/>} callback={()=>{setOpen(false)}}/>
                     </div>
                 </div>
                 {!refresh && <SeaListView requset={videoList} slot={renderListDom} params={params} />}

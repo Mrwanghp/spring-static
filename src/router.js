@@ -1,8 +1,8 @@
 import React,{ Suspense, lazy } from 'react';
 import { Router, Route } from 'dva/router';
 import { CacheSwitch, CacheRoute } from 'react-cache-router';	 //所需包
-const detail = lazy(()=> import('@/pages/detail'));
 const tabBar = lazy(()=> import('@/pages/tabBarPage'));
+const detail = lazy(()=> import('@/pages/detail'));
 function waitingComponent(Component) {
   return (props) => (
       <Suspense fallback={<div></div>}>

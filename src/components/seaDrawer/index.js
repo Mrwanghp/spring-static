@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'dva';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaDrawer(props) {
@@ -32,4 +31,4 @@ SeaDrawer.defaultProps = {
     height: '40%',
     position: 'left'
 }
-export default connect()(SeaDrawer);
+export default SeaDrawer;

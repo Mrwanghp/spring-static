@@ -1,4 +1,3 @@
-import { connect } from 'dva';
 import styles from './index.less';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
@@ -27,21 +26,22 @@ function SeaListView(props) {
     };
     const initListData = async () => {
         setNoRepeat(true);
-        const paramsdata = { ...params, pg: pageNum };
+        const paramsdata = { ...params, curPage: pageNum, pageSize: 15,};
         const { data } = await requset(paramsdata);
-        if (pageNum === 1 && !data.list.length) {
+        console.log(data)
+        if (pageNum === 1 && !data.length) {
             setInitLoading(false);
         }
-        if (!data.list.length) {
+        if (!data.length) {
             setDownLoading(false);
         } else {
             if (pageNum === 1) {
-                dataSource.current = dataSource.current.cloneWithRows(data.list);
-                orgList.current = data.list;
+                dataSource.current = dataSource.current.cloneWithRows(data);
+                orgList.current = data;
                 console.log(orgList.current)
             } else {
-                dataSource.current = dataSource.current.cloneWithRows([...orgList.current, ...data.list]);
-                orgList.current = [...orgList.current, ...data.list];
+                dataSource.current = dataSource.current.cloneWithRows([...orgList.current, ...data]);
+                orgList.current = [...orgList.current, ...data];
             }
         }
         setUpLoading(false);
@@ -60,7 +60,7 @@ function SeaListView(props) {
                 initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
                     <ListView
                         dataSource={dataSource.current}
-                        renderFooter={() => (orgList.current.length > 24 && <div className={styles.downloading}>
+                        renderFooter={() => (orgList.current.length > 15 && <div className={styles.downloading}>
                             {downLoading ? '加载中...' : '哎呀，到底了'}
                         </div>)}
                         renderRow={slot}
@@ -68,7 +68,7 @@ function SeaListView(props) {
                             height,
                             overflow: 'auto',
                         }}
-                        pageSize={10}
+                        pageSize={15}
                         pullToRefresh={<PullToRefresh
                             refreshing={upLoading}
                             onRefresh={onRefresh}  //下拉刷新
@@ -91,4 +91,4 @@ SeaListView.propTypes = {
 SeaListView.defaultProps = {
     height: '80vh'
 }
-export default connect()(SeaListView);
+export default SeaListView;

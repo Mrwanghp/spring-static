@@ -4,7 +4,7 @@ import SeaPlayer from "@/components/seaPlayer";
 import SeaDrawer from "@/components/seaDrawer";
 import { connect } from "dva";
 import styles from "./index.less";
-import { videoList } from "@/services/list";
+import { listDetail } from "@/services/list";
 function Detail(props) {
   console.log(props);
   const vodId = props.location.search.split("?")[1].split("=")[1];
@@ -16,17 +16,12 @@ function Detail(props) {
   // init
   const initDetailData = async () => {
     setLoading(true);
-    const params = { ids: vodId, ac: "detail" };
-    const { data } = await videoList(params);
-    const url = data.list[0].vod_play_url;
-    const list = url.split("$$$")[1].split("#");
-    const arr = list.map((item) => {
-      const [name, url] = item.split("$");
-      return { name, url };
-    });
-    setDetialData(data.list[0]);
+    const params = { vod_id: vodId };
+    const { data } = await listDetail(params);
+    setUrlList(data.playList)
+    setDetialData(data.details)
+    // setUrlList(data.downloadList)
     setLoading(false);
-    setUrlList(arr);
   };
   const switchUrl = (index) => {
     setCurIndex(index);
@@ -41,6 +36,7 @@ function Detail(props) {
   useEffect(() => {
     initDetailData();
   }, []);
+  //简介
   const slot = () => {
     return (
       <div className={styles.content}>
@@ -49,7 +45,7 @@ function Detail(props) {
           <div className={styles.content_right}>
             <div className={styles.titleName}>{detialData.vod_name||'-'}</div>
             <div className={styles.text}>主演：{detialData.vod_actor||'-'}</div>
-            <div className={styles.text}>类型：{detialData.type_name||'-'}</div>
+            {/* <div className={styles.text}>类型：{detialData.type_name||'-'}</div> */}
             <div className={styles.text}>
               <span>导演：{detialData.vod_director||'-'}</span>
               <span style={{ float: "right" }}>
@@ -67,22 +63,6 @@ function Detail(props) {
         <div className={`clear ${styles.inner}`}>
           <div className={styles.inner_text}>{detialData.vod_content}</div>
         </div>
-      </div>
-    );
-  };
-  const List = () => {
-    return (
-      <div className="flex flex-wrap">
-        {urlList.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => switchUrl(index)}
-            className={`${styles.tvlist} ${
-              index === curIndex ? styles.active : ""}`}
-          >
-            {item.name}
-          </div>
-        ))}
       </div>
     );
   };
@@ -111,7 +91,18 @@ function Detail(props) {
             setOpen(false);
           }}
         />
-        <List />
+        <div className="flex flex-wrap">
+          {urlList.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => switchUrl(index)}
+              className={`${styles.tvlist} ${
+                index === curIndex ? styles.active : ""}`}
+            >
+              {item.title}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
