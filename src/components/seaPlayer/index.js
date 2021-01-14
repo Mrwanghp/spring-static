@@ -40,6 +40,9 @@ function SeaNavBar(props) {
   }
   useEffect(() => {
     playering();
+    return ()=>{
+      player.current.dp.destroy();
+     }
   }, [])
   return <div style={{ height: '6.633333rem' }}>
     {!refresh && <DPlayer
