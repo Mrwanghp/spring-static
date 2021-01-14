@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import { withRouter, routerRedux } from 'dva/router';
-// import NavBar from '@/components/seaNavBar';
 import Tab from '@/components/seaTab';
 import SeaListView from '@/components/seaListView';
 import SeaDrawer from '@/components/seaDrawer';
@@ -12,6 +11,13 @@ import styles from './index.less';
 import filterPng from '@/assets/filter.png';
 import { videoList, tabList, getValueSet } from '@/services/list';
 function Index(props) {
+    // 筛选列表初始模板
+    const list = {
+        type: [],
+        areaList: [], 
+        langList: [], 
+        yearList: []
+    };
     const [tabs] = useState([
         { title: '全部', key: 0 },
         { title: '电影', key: '1,6,7,8,9,10,11,12' },
@@ -22,10 +28,11 @@ function Index(props) {
     ]);
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState(0);
-    const [typeName, setTypeName] = useState('');
+    const [typeName, setTypeName] = useState('全部');
     const [typeList, useTypeList] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [searchVal, setSearchVal] = useState('');
+    const [checked, setChecked] = useState(list);
     const params = {
         type_id: typeId || '',
         name: searchVal || ''
@@ -55,7 +62,8 @@ function Index(props) {
     const onTabClick = (item) => {
         setSearchVal('');
         setTypeId(item.key);
-        setTypeName(item.title)
+        setTypeName(item.title);
+        setChecked(list);
         setRefresh(true);
     };
     // init筛选子类
@@ -98,7 +106,19 @@ function Index(props) {
                     <div className={styles.filter} onClick={drawerTab}>
                         <span>筛选</span>
                         <img className={styles.img} src={filterPng} alt="" />
-                        <SeaDrawer open={open} Slot={()=> typeList.length && <FilterList list={typeList} type={typeName}/>} callback={()=>{setOpen(false)}}/>
+                        <SeaDrawer 
+                            open={open} 
+                            Slot={
+                                ()=> typeList.length && 
+                                    <FilterList 
+                                        list={typeList} 
+                                        type={typeName}
+                                        checked={checked}
+                                        callback={(arr)=>{setChecked(arr)}}
+                                    />
+                            } 
+                            callback={()=>{setOpen(false)}}
+                        />
                     </div>
                 </div>
                 {!refresh && <SeaListView requset={videoList} slot={renderListDom} params={params} />}

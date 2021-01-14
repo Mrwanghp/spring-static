@@ -60,7 +60,7 @@ function SeaListView(props) {
                 initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
                     <ListView
                         dataSource={dataSource.current}
-                        renderFooter={() => (orgList.current.length > 15 && <div className={styles.downloading}>
+                        renderFooter={() => (orgList.current.length >= 15 && <div className={styles.downloading}>
                             {downLoading ? '加载中...' : '哎呀，到底了'}
                         </div>)}
                         renderRow={slot}

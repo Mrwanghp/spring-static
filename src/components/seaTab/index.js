@@ -8,7 +8,6 @@ function renderTabBar(props) {
     </Sticky>);
   }
 function SeaTab(props) {
-    // , height='', backgroundColor, page
     const { tabs, onTabClick } = props;
     return (
         <div >
