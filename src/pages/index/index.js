@@ -34,8 +34,11 @@ function Index(props) {
     const [searchVal, setSearchVal] = useState('');
     const [checked, setChecked] = useState(list);
     const params = {
-        type_id: typeId || '',
-        name: searchVal || ''
+        type_id: checked.type.join() || typeId || '',
+        name: searchVal || '',
+        year: checked.yearList.join(),
+        land: checked.langList.join(),
+        area: checked.areaList.join()
     };
     // 跳转详情
     const toDetail = (item) => {
@@ -53,6 +56,18 @@ function Index(props) {
     // 搜索
     const search = (event) => {
         event.keyCode === 13 && setRefresh(true);
+    }
+    // 筛选查询
+    const confirm = (arr) => {
+        setOpen(false);
+        setChecked(arr);
+        setRefresh(true);
+    }
+    // 筛选重置
+    const reset = () => {
+        setOpen(false);
+        setChecked(list);
+        setRefresh(true);
     }
     //open弹框
     const drawerTab = () => {
@@ -79,7 +94,7 @@ function Index(props) {
         return (
             <div onClick={() => { toDetail(item) }}>
                 <div className={styles.list} key={item.vod_id}>
-                    <img src={item.vod_pic} alt="" />
+                    <img loading="lazy" src={item.vod_pic} alt="" />
                     <div className={styles.sub}>{item.vod_remarks}</div>
                     <div className={styles.heading}>{item.vod_name || '-'}</div>
                     <div className={styles.Introduction}>{item.vod_blurb || '-'}</div>
@@ -114,7 +129,8 @@ function Index(props) {
                                         list={typeList} 
                                         type={typeName}
                                         checked={checked}
-                                        callback={(arr)=>{setChecked(arr)}}
+                                        reset={reset}
+                                        confirm={(arr)=>{confirm(arr)}}
                                     />
                             } 
                             callback={()=>{setOpen(false)}}

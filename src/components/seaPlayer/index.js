@@ -4,6 +4,7 @@ import Hls from "hls.js";
 import DPlayer from "react-dplayer";
 
 function SeaNavBar(props) {
+  const hls = new Hls();
   const player = useRef(null);
   const [refresh, setRefresh] = useState(false);
   const {
@@ -20,7 +21,6 @@ function SeaNavBar(props) {
       type: "customHls",
       customType: {
         customHls: function (video, player) {
-          const hls = new Hls();
           hls.loadSource(video.src);
           hls.attachMedia(video);
         },
@@ -41,6 +41,7 @@ function SeaNavBar(props) {
   useEffect(() => {
     playering();
     return ()=>{
+      hls.destroy();
       player.current.dp.destroy();
      }
   }, [])

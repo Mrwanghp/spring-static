@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-13 16:30:34
- * @LastEditTime: 2021-01-14 17:29:16
+ * @LastEditTime: 2021-01-15 16:56:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\components\seaGrid\index.js
@@ -25,12 +25,11 @@ function SeaNavBar(props) {
             <div className={styles.tagInner}>
                 { 
                     list.map((item, index)=> (
-                        <Tag 
-                            selected={index === curIndex} 
+                        <div
+                            className={`${styles.grid} ${index === curIndex ? styles.active: ''}`} 
                             key={item.value} 
-                            onChange={()=>{tagSwitch(item, index)}}>
-                            {item.title}
-                        </Tag>
+                            onClick={()=>{tagSwitch(item, index)}}>
+                         {item.title}</div>
                     ))
                 }
             </div>
