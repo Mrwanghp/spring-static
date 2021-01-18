@@ -8,11 +8,14 @@ import { listDetail } from "@/services/list";
 function Detail(props) {
   console.log(props);
   const vodId = props.location.search.split("?")[1].split("=")[1];
-  const [loading, setLoading] = useState(false);
-  const [urlList, setUrlList] = useState([]);
-  const [curIndex, setCurIndex] = useState(0);
+  const [open, setOpen] = useState(false); // 简介
+  const [loading, setLoading] = useState(true); //initloading
+  const [urlList, setUrlList] = useState([]); // 选集
+  const [curIndex, setCurIndex] = useState(0); //
+  const [urlMore, setUrlMore] = useState(false); // 查看更多And下载
+  const [isDownLoad, setIsDownLoad] = useState(0); // 是否下载弹框
+  const [downLoadList, setDownLoadList] = useState([]); //下载列表
   const [detialData, setDetialData] = useState({});
-  const [open, setOpen] = useState(false);
   // init
   const initDetailData = async () => {
     setLoading(true);
@@ -20,24 +23,41 @@ function Detail(props) {
     const { data } = await listDetail(params);
     setDetialData(data.details)
     setUrlList(data.playList)
-    // setUrlList(data.downloadList)
+    setDownLoadList(data.downloadList)
     setLoading(false);
   };
   //open弹框
   const drawerTab = () => {
     setOpen(true);
   };
+  // 打开更多and下载弹框
+  const openMoreDrawer =(type) => {
+    setIsDownLoad(type)
+    setUrlMore(true);
+  }
+  // 选集切换
   const switchUrl = (index) => {
     setCurIndex(index);
   };
+  // 下载or选集
+  const moreVideoUrl = (index) => {
+    if (isDownLoad) {
+      window.location.href = downLoadList[index].url;
+    } else {
+      setCurIndex(index);
+    }
+    setUrlMore(false);
+  }
+  // 播放结束自动++
   const ended = () => {
     setCurIndex(curIndex + 1);
   };
+  // initdata
   useEffect(() => {
     initDetailData();
   }, []);
   //简介
-  const slot = () => {
+  const introduction = () => {
     return (
       <div className={styles.content}>
         <div>
@@ -66,44 +86,81 @@ function Detail(props) {
       </div>
     );
   };
+  // 更多And下载
+  const more = () =>{
+    return (
+      <div>
+        <div className={styles.moreTitle}>{ isDownLoad ? '下载': '选集'}</div>
+        <div className="flex flex-wrap">
+          {urlList.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => moreVideoUrl(index)}
+                className={`${styles.tvlist} ${
+                  index === curIndex ? styles.active : ""}`}
+              >
+                {item.title}
+              </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
       <ActivityIndicator toast={true} text="拼命加载中..." animating={loading} />
-      { !loading && (urlList.length ?  
-        <SeaPlayer
-          url={urlList[curIndex].url}
-          pic={detialData.vod_pic}
-          ended={ended}
-        />
-      : <div className={styles['error-log']}>暂无视频资源，抱歉！</div>)}
-      <div>
-        <div className={styles.title}>
-          <span>{detialData.vod_name}</span>
-          <span onClick={drawerTab} className={styles.introduction}>
-            {detialData.vod_name && '简介>'}
-          </span>
+      {!loading && <div>
+        {(urlList.length ?  
+          <SeaPlayer
+            url={urlList[curIndex].url}
+            pic={detialData.vod_pic}
+            ended={ended}
+          />
+        : <div className={styles['error-log']}>暂无视频资源，抱歉！</div>)}
+        <div>
+          <div className={styles.title}>
+            <span>{detialData.vod_name}</span>
+            <span onClick={drawerTab} className={styles.introduction}> 简介</span>
+            <span onClick={()=>{openMoreDrawer(1)}} className={`mar-right-20 ${styles.introduction}`}>下载</span>
+          </div>
+          {/* {detialData.vod_remarks} */}
+          <div style={{height: '.5rem'}}></div>
+          <div className={styles.collect}>
+            <span className={styles.collectTitle}>选集</span>
+            {urlList.length > 6 && <span onClick={()=>{openMoreDrawer(0)}} className={styles.collectMore}>查看更多</span>}
+          </div>
+          <div className={styles.tag}>
+              <div className={styles.tagInner}>
+                {urlList.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => switchUrl(index)}
+                    className={`${styles.tvlist} ${
+                      index === curIndex ? styles.active : ""}`}
+                  >
+                    {item.title}
+                  </div>
+                ))}
+              </div>
+          </div>
         </div>
-        <SeaDrawer
+      </div> }
+      <SeaDrawer
           height="60%"
           open={open}
-          Slot={slot}
+          Slot={introduction}
           callback={() => {
             setOpen(false);
           }}
         />
-        <div className="flex flex-wrap">
-          {urlList.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => switchUrl(index)}
-              className={`${styles.tvlist} ${
-                index === curIndex ? styles.active : ""}`}
-            >
-              {item.title}
-            </div>
-          ))}
-        </div>
-      </div>
+      <SeaDrawer
+          height="60%"
+          open={urlMore}
+          Slot={more}
+          callback={() => {
+            setUrlMore(false);
+          }}
+        />
     </div>
   );
 }

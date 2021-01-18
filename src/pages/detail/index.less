@@ -1,5 +1,13 @@
-.iframeV {
-    width: 100%;
+.tag{
+    overflow-x: auto;
+    /* text-align: left; */
+    overflow-y: hidden;
+    margin: .2rem 0 .2rem .2rem;
+}
+.tagInner{
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
 }
 .tvlist {
     padding: 0 .153333rem;
@@ -8,7 +16,7 @@
     line-height: 0.733333rem /* 40/75 */;
     margin: 0.133333rem /* 10/75 */;
     border: 1px solid #ccc;
-    border-radius: .2rem;
+    border-radius: .1rem;
     color: #222;
 }
 .active {
@@ -18,14 +26,13 @@
 }
 .title {
     line-height: 1.066667rem /* 80/75 */;
-    font-size: .426667rem /* 32/75 */;
+    font-size: 0.426667rem /* 32/75 */;
     color: #2b2b2b;
-    padding-left: .266667rem /* 20/75 */;
+    padding: 0 0.266667rem /* 20/75 */;
     font-weight: bold;
 }
 .introduction{
     float: right;
-    padding-right: 20px;
     font-weight: normal;
     font-size: .4rem;
 }
@@ -68,4 +75,22 @@
     text-align: center;
     line-height: 6.633333rem;
     font-size: .546667rem;
+}
+.collect {
+    padding: 0 0.266667rem /* 20/75 */;
+    .collectTitle {
+        font-size: 0.37rem;
+        font-weight: bold;
+    }
+    .collectMore {
+        float: right;
+    }
+}
+.moreTitle {
+    height: .833333rem;
+    border-bottom: 1px solid #ccc;
+    line-height: .833333rem;
+    padding-left: .133333rem;
+    font-weight: bold;
+    font-size: 0.35rem;
 }
