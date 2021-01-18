@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { PullToRefresh, ListView } from 'antd-mobile';
 function SeaListView(props) {
-    const { params, slot, requset, height } = props;
-    const orgList = useRef([]);
+    const { params, slot, requset } = props;
+    const listDom = useRef(null);
+    const orgList = useRef({});
+    const [height, setHeight] = useState(0);
     const [pageNum, setPageNum] = useState(1);
     const [initLoading, setInitLoading] = useState(true); // 初始化加载loading
     const [downLoading, setDownLoading] = useState(true); // 下拉loading
@@ -48,13 +50,20 @@ function SeaListView(props) {
         setNoRepeat(false);
         setInitLoading(false);
     };
+    // 计算list高度
+    const calcHeight = () => {
+        const [ tabbar ] = document.getElementsByClassName('am-tab-bar-bar');
+        const height = document.documentElement.clientHeight-listDom.current.offsetTop - tabbar.offsetHeight;
+        setHeight(height)
+    }
     useEffect(() => {
+        calcHeight();
         setDownLoading(true);
         setUpLoading(true);
         initListData();
     }, [pageNum])
     return (
-        <div style={{ marginTop: '.266667rem' }}>
+        <div ref={listDom} style={{ marginTop: '.266667rem' }}>
             {!initLoading && !orgList.current.length && <div style={{ textAlign: 'center' }}>哎呀 好像没找到您想看的</div>}
             {
                 initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
@@ -65,7 +74,7 @@ function SeaListView(props) {
                         </div>)}
                         renderRow={slot}
                         style={{
-                            height,
+                            height: height + 'px',
                             overflow: 'auto',
                         }}
                         pageSize={15}
@@ -85,10 +94,9 @@ function SeaListView(props) {
 SeaListView.propTypes = {
     params: PropTypes.object,
     requset: PropTypes.func.isRequired,
-    height: PropTypes.string,
     slot: PropTypes.func,
 }
 SeaListView.defaultProps = {
-    height: '80vh'
+    // height: '80vh'
 }
 export default SeaListView;

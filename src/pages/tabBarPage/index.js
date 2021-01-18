@@ -1,13 +1,13 @@
 /*
  * @Author: wang
  * @Date: 2020-12-30 16:43:39
- * @LastEditTime: 2020-12-30 17:35:56
+ * @LastEditTime: 2021-01-18 11:08:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\pages\tabbar\index.js
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { TabBar, Toast } from 'antd-mobile';
 import { connect } from 'dva';
 import mine from '@/assets/mine.png';
@@ -17,11 +17,16 @@ import indexActive from '@/assets/index-active.png';
 import IndexPage from '@/pages/index'
 function tabBarPage() {
   const [selectedTab, setSelectedTab] = useState('blueTab');
+  const tab = useRef(null)
+  useEffect(()=> {
+    console.log(tab)
+  },[])
   return (
-    <div >
+    <div>
       <img src="" alt="" />
       <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
+          ref={tab} 
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
           barTintColor="white"
