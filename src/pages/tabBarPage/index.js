@@ -1,7 +1,7 @@
 /*
  * @Author: wang
  * @Date: 2020-12-30 16:43:39
- * @LastEditTime: 2021-01-18 11:08:09
+ * @LastEditTime: 2021-01-18 13:30:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\pages\tabbar\index.js
@@ -23,7 +23,6 @@ function tabBarPage() {
   },[])
   return (
     <div>
-      <img src="" alt="" />
       <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
           ref={tab} 
@@ -54,7 +53,6 @@ function tabBarPage() {
             onPress={() => {
               Toast.fail('功能暂未开放！', 1);
               return;
-              setSelectedTab('redTab')
             }}
             data-seed="logId1"
           >

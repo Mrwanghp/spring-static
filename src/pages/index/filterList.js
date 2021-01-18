@@ -1,12 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-01-13 16:06:00
- * @LastEditTime: 2021-01-15 17:31:38
+ * @LastEditTime: 2021-01-18 13:29:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\pages\index\filterList.js
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { iterTree } from '@/utils/common'
 import { Button } from 'antd-mobile'
 import SeaGrid from '@/components/seaGrid';

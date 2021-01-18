@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaDrawer(props) {
-    const { open, Slot, callback, position, height } = props;
+    const { open, Slot, callback, height } = props;
     const close = (event) => {
         event.stopPropagation();
         callback();

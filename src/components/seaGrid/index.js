@@ -1,13 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-01-13 16:30:34
- * @LastEditTime: 2021-01-15 16:56:10
+ * @LastEditTime: 2021-01-18 13:30:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\components\seaGrid\index.js
  */
 import React, { useState, useEffect } from 'react';
-import { Tag } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaNavBar(props) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator } from "antd-mobile";
+import { ActivityIndicator, Toast } from "antd-mobile";
 import SeaPlayer from "@/components/seaPlayer";
 import SeaDrawer from "@/components/seaDrawer";
 import { connect } from "dva";
@@ -18,20 +18,20 @@ function Detail(props) {
     setLoading(true);
     const params = { vod_id: vodId };
     const { data } = await listDetail(params);
-    setUrlList(data.playList)
     setDetialData(data.details)
+    setUrlList(data.playList)
     // setUrlList(data.downloadList)
     setLoading(false);
+  };
+  //open弹框
+  const drawerTab = () => {
+    setOpen(true);
   };
   const switchUrl = (index) => {
     setCurIndex(index);
   };
   const ended = () => {
     setCurIndex(curIndex + 1);
-  };
-  //open弹框
-  const drawerTab = () => {
-    setOpen(true);
   };
   useEffect(() => {
     initDetailData();
@@ -45,7 +45,7 @@ function Detail(props) {
           <div className={styles.content_right}>
             <div className={styles.titleName}>{detialData.vod_name||'-'}</div>
             <div className={styles.text}>主演：{detialData.vod_actor||'-'}</div>
-            {/* <div className={styles.text}>类型：{detialData.type_name||'-'}</div> */}
+            <div className={styles.text}>类型：{detialData.type_name||'-'}</div>
             <div className={styles.text}>
               <span>导演：{detialData.vod_director||'-'}</span>
               <span style={{ float: "right" }}>
@@ -69,13 +69,13 @@ function Detail(props) {
   return (
     <div>
       <ActivityIndicator toast={true} text="拼命加载中..." animating={loading} />
-      {Boolean(urlList.length) && (
+      { !loading && (urlList.length ?  
         <SeaPlayer
           url={urlList[curIndex].url}
           pic={detialData.vod_pic}
           ended={ended}
         />
-      )}
+      : <div className={styles['error-log']}>暂无视频资源，抱歉！</div>)}
       <div>
         <div className={styles.title}>
           <span>{detialData.vod_name}</span>

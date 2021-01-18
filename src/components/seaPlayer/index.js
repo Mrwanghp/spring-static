@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import Hls from "hls.js";
 import DPlayer from "react-dplayer";
@@ -6,7 +6,6 @@ import DPlayer from "react-dplayer";
 function SeaNavBar(props) {
   const hls = new Hls();
   const player = useRef(null);
-  const [refresh, setRefresh] = useState(false);
   const {
     url,
     pic,
@@ -27,17 +26,12 @@ function SeaNavBar(props) {
       },
     },
   };
-  useEffect(() => {
-    refresh && setTimeout(() => setRefresh(false))
-  }, [refresh]);
-  useEffect(() => {
-    setRefresh(true)
-  }, [url]);
   const playering = () => {
     player.current.dp.on('play', () => play && play());
     player.current.dp.on('ended', () => ended && ended());
     player.current.dp.on('error', () => error && error());
   }
+  // 事件
   useEffect(() => {
     playering();
     return ()=>{
@@ -45,12 +39,16 @@ function SeaNavBar(props) {
       player.current.dp.destroy();
      }
   }, [])
+  // 切换视频
+  useEffect(() => {
+    player.current.dp.switchVideo(option.video);
+  }, [url])
   return <div style={{ height: '6.633333rem' }}>
-    {!refresh && <DPlayer
+    <DPlayer
       style={{ height: '6.633333rem' }}
       ref={player}
       options={option}
-    />}
+    />
   </div>;
 }
 SeaNavBar.propTypes = {
