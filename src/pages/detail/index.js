@@ -121,7 +121,7 @@ function Detail(props) {
           <div className={styles.title}>
             <span>{detialData.vod_name}</span>
             <span onClick={drawerTab} className={styles.introduction}> 简介</span>
-            <span onClick={()=>{openMoreDrawer(1)}} className={`mar-right-20 ${styles.introduction}`}>下载</span>
+            {urlList.length && <span onClick={()=>{openMoreDrawer(1)}} className={`mar-right-20 ${styles.introduction}`}>下载</span>}
           </div>
           {/* {detialData.vod_remarks} */}
           <div style={{height: '.5rem'}}></div>
