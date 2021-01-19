@@ -132,7 +132,7 @@ function Index(props) {
                                         type={typeName}
                                         checked={checked}
                                         reset={reset}
-                                        confirm={(arr)=>{confirm(arr)}}
+                                        confirm={confirm}
                                     />
                             } 
                             callback={()=>{setOpen(false)}}
