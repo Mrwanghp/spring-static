@@ -10,6 +10,7 @@ import { Icon } from 'antd-mobile';
 import styles from './index.less';
 import filterPng from '@/assets/filter.png';
 import { videoList, tabList, getValueSet } from '@/services/list';
+import { prohibited } from '@/utils/common'; // 禁止键盘抬起页面滑动
 function Index(props) {
     // 筛选列表初始模板
     const list = {
@@ -83,6 +84,7 @@ function Index(props) {
     };
     // init筛选子类
     useEffect(() => {
+        prohibited();
         initFilterList();
     }, []);
     // 刷新ref

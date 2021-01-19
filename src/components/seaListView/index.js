@@ -30,7 +30,6 @@ function SeaListView(props) {
         setNoRepeat(true);
         const paramsdata = { ...params, curPage: pageNum, pageSize: 15,};
         const { data } = await requset(paramsdata);
-        console.log(data)
         if (pageNum === 1 && !data.length) {
             setInitLoading(false);
         }
@@ -52,7 +51,7 @@ function SeaListView(props) {
     };
     // 计算list高度
     const calcHeight = () => {
-        const [ tabbar ] = document.getElementsByClassName('am-tab-bar-bar');
+        const [tabbar] = document.getElementsByClassName('am-tab-bar-bar');
         const height = document.documentElement.clientHeight-listDom.current.offsetTop - tabbar.offsetHeight;
         setHeight(height)
     }
@@ -64,9 +63,9 @@ function SeaListView(props) {
     }, [pageNum])
     return (
         <div ref={listDom} style={{ marginTop: '.266667rem' }}>
-            {!initLoading && !orgList.current.length && <div style={{ textAlign: 'center' }}>哎呀 好像没找到您想看的</div>}
             {
-                initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> :
+                initLoading ? <div className={styles.auto}><div className={styles.loading}></div></div> 
+                :(orgList.current.length ? 
                     <ListView
                         dataSource={dataSource.current}
                         renderFooter={() => (orgList.current.length >= 15 && <div className={styles.downloading}>
@@ -86,6 +85,8 @@ function SeaListView(props) {
                         onEndReached={onEndReached} //上拉加载
                         onEndReachedThreshold={20} //调用onEndReached之前的临界值，单位是像素
                     />
+                     : <div style={{ textAlign: 'center' }}>哎呀 好像没找到您想看的</div>)
+
             }
         </div>
     );

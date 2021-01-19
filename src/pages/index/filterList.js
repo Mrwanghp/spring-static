@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-13 16:06:00
- * @LastEditTime: 2021-01-18 13:29:20
+ * @LastEditTime: 2021-01-19 15:01:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\pages\index\filterList.js
@@ -32,10 +32,10 @@ function FilterList(props) {
             {
                 arr.map((item) =>
                    <SeaGrid 
-                    key={item.key} 
-                    checked={checked[item.key]} 
-                    list={item.list} 
-                    onChange={(value)=>onChange(value, item.key)}
+                     key={item.key} 
+                     checked={checked[item.key]} 
+                     list={item.list} 
+                     onChange={(value)=>onChange(value, item.key)}
                    />
                 )
             }

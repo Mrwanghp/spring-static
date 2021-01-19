@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { ActivityIndicator, Toast } from "antd-mobile";
 import SeaPlayer from "@/components/seaPlayer";
 import SeaDrawer from "@/components/seaDrawer";
 import { connect } from "dva";
 import styles from "./index.less";
 import { listDetail } from "@/services/list";
+import { separation } from '@/utils/common'; // 分割数组
 function Detail(props) {
   console.log(props);
   const vodId = props.location.search.split("?")[1].split("=")[1];
@@ -12,6 +13,7 @@ function Detail(props) {
   const [loading, setLoading] = useState(true); //initloading
   const [urlList, setUrlList] = useState([]); // 选集
   const [curIndex, setCurIndex] = useState(0); //
+  const [separaIdx, setSeparaIdx] = useState(0); //
   const [urlMore, setUrlMore] = useState(false); // 查看更多And下载
   const [isDownLoad, setIsDownLoad] = useState(0); // 是否下载弹框
   const [downLoadList, setDownLoadList] = useState([]); //下载列表
@@ -39,6 +41,9 @@ function Detail(props) {
   const switchUrl = (index) => {
     setCurIndex(index);
   };
+  const switchSepara = (index) => {
+    setSeparaIdx(index)
+  }
   // 下载or选集
   const moreVideoUrl = (index) => {
     if (isDownLoad) {
@@ -88,23 +93,43 @@ function Detail(props) {
   };
   // 更多And下载
   const more = () =>{
-    return (
-      <div>
+    const list = separation((urlList).map((v,i)=>({...v,i:i+1})), 50);
+    return useMemo(() => {
+      return (
+        <div>
         <div className={styles.moreTitle}>{ isDownLoad ? '下载': '选集'}</div>
+        <div className={styles.tag}>
+              <div className={styles.tagInner}>
+                {
+                  list.map((item,index) => (
+                    <div 
+                      key={index}
+                      onClick={() => switchSepara(index)}
+                      className={`${styles.separation} ${
+                      index === separaIdx ? styles.separationActive : ""}`}
+                      >
+                      {item[0].i}-{item[item.length-1].i}
+                    </div>
+                  ))
+                }
+              </div>
+        </div>
         <div className="flex flex-wrap">
-          {urlList.map((item, index) => (
+          {list.length && list[separaIdx].map((item, index) => (
               <div
+                style={{padding: 0, width: '16.5%'}}
                 key={index}
-                onClick={() => moreVideoUrl(index)}
+                onClick={() => moreVideoUrl(item.i-1)}
                 className={`${styles.tvlist} ${
-                  index === curIndex ? styles.active : ""}`}
+                  item.i-1 === curIndex ? styles.active : ""}`}
               >
                 {item.title}
               </div>
           ))}
         </div>
       </div>
-    )
+      )
+    },[isDownLoad])
   }
   return (
     <div>
