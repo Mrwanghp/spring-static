@@ -1,7 +1,7 @@
 /*
  * @Author: wang
  * @Date: 2021-01-14 13:47:05
- * @LastEditTime: 2021-01-19 15:15:18
+ * @LastEditTime: 2021-01-20 10:11:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \spring-static\src\utils\common.js
@@ -67,6 +67,9 @@ export const prohibited = () => {
           });
         }
       });
+    },
+    'PC': () => {
+      alert('请使用手机访问！')
     }
   }[judgeClient()]()
 }

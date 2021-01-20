@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaDrawer(props) {
@@ -7,17 +7,19 @@ function SeaDrawer(props) {
         event.stopPropagation();
         callback();
     }
-    return (
-        <div onClick={close} className={styles.popup} style={{width:open ? '100%': '0%'}}>
-			<div 
-                onClick={(event)=>{event.stopPropagation()}} 
-                className={styles.popupContent} 
-                style={{height:open ? height : '0%'}}
-            >
-				<Slot/>
-			</div>
-		</div>
-    );
+    // return useMemo(()=>{
+        return (
+            <div onClick={close} className={styles.popup} style={{width:open ? '100%': '0%'}}>
+                <div 
+                    onClick={(event)=>{event.stopPropagation()}} 
+                    className={styles.popupContent} 
+                    style={{height:open ? height : '0%'}}
+                >
+                    <Slot/>
+                </div>
+            </div>
+        );
+    // },[open,Slot])
 }
 
 SeaDrawer.propTypes = {

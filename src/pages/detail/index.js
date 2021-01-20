@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ActivityIndicator, Toast } from "antd-mobile";
 import SeaPlayer from "@/components/seaPlayer";
 import SeaDrawer from "@/components/seaDrawer";
@@ -7,8 +7,9 @@ import styles from "./index.less";
 import { listDetail } from "@/services/list";
 import { separation } from '@/utils/common'; // 分割数组
 function Detail(props) {
-  console.log(props);
   const vodId = props.location.search.split("?")[1].split("=")[1];
+  const scrollDom = useRef(null);
+  const activeDom = useRef(null);
   const [open, setOpen] = useState(false); // 简介
   const [loading, setLoading] = useState(true); //initloading
   const [urlList, setUrlList] = useState([]); // 选集
@@ -43,6 +44,7 @@ function Detail(props) {
   };
   const switchSepara = (index) => {
     setSeparaIdx(index)
+    // scroll('separationActive');
   }
   // 下载or选集
   const moreVideoUrl = (index) => {
@@ -50,6 +52,7 @@ function Detail(props) {
       window.location.href = downLoadList[index].url;
     } else {
       setCurIndex(index);
+      scroll('active');
     }
     setUrlMore(false);
   }
@@ -57,6 +60,14 @@ function Detail(props) {
   const ended = () => {
     setCurIndex(curIndex + 1);
   };
+  const scroll = (className) => {
+    setTimeout(()=>{
+      const [ active ] = document.getElementsByClassName(styles[className]);
+      console.log(active)
+      const left = active.offsetLeft - 13;
+      scrollDom.current.scroll(left,0)
+    })
+  }
   // initdata
   useEffect(() => {
     initDetailData();
@@ -94,7 +105,6 @@ function Detail(props) {
   // 更多And下载
   const more = () =>{
     const list = separation((urlList).map((v,i)=>({...v,i:i+1})), 50);
-    return useMemo(() => {
       return (
         <div>
         <div className={styles.moreTitle}>{ isDownLoad ? '下载': '选集'}</div>
@@ -129,7 +139,6 @@ function Detail(props) {
         </div>
       </div>
       )
-    },[isDownLoad])
   }
   return (
     <div>
@@ -154,10 +163,11 @@ function Detail(props) {
             <span className={styles.collectTitle}>选集</span>
             {urlList.length > 6 && <span onClick={()=>{openMoreDrawer(0)}} className={styles.collectMore}>查看更多</span>}
           </div>
-          <div className={styles.tag}>
+          <div ref={scrollDom} className={styles.tag}>
               <div className={styles.tagInner}>
                 {urlList.map((item, index) => (
                   <div
+                    ref={activeDom}
                     key={index}
                     onClick={() => switchUrl(index)}
                     className={`${styles.tvlist} ${
