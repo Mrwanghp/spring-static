@@ -9,12 +9,11 @@ import { separation } from '@/utils/common'; // 分割数组
 function Detail(props) {
   const vodId = props.location.search.split("?")[1].split("=")[1];
   const scrollDom = useRef(null);
-  const activeDom = useRef(null);
+  const scrollMoreDom = useRef(null);
   const [open, setOpen] = useState(false); // 简介
   const [loading, setLoading] = useState(true); //initloading
   const [urlList, setUrlList] = useState([]); // 选集
   const [curIndex, setCurIndex] = useState(0); //
-  const [separaIdx, setSeparaIdx] = useState(0); //
   const [urlMore, setUrlMore] = useState(false); // 查看更多And下载
   const [isDownLoad, setIsDownLoad] = useState(0); // 是否下载弹框
   const [downLoadList, setDownLoadList] = useState([]); //下载列表
@@ -37,22 +36,19 @@ function Detail(props) {
   const openMoreDrawer =(type) => {
     setIsDownLoad(type)
     setUrlMore(true);
+    scroll('separationActive', scrollMoreDom);
   }
   // 选集切换
   const switchUrl = (index) => {
     setCurIndex(index);
   };
-  const switchSepara = (index) => {
-    setSeparaIdx(index)
-    // scroll('separationActive');
-  }
   // 下载or选集
   const moreVideoUrl = (index) => {
     if (isDownLoad) {
       window.location.href = downLoadList[index].url;
     } else {
       setCurIndex(index);
-      scroll('active');
+      scroll('active', scrollDom);
     }
     setUrlMore(false);
   }
@@ -60,12 +56,11 @@ function Detail(props) {
   const ended = () => {
     setCurIndex(curIndex + 1);
   };
-  const scroll = (className) => {
+  const scroll = (className, Dom) => {
     setTimeout(()=>{
       const [ active ] = document.getElementsByClassName(styles[className]);
-      console.log(active)
-      const left = active.offsetLeft - 13;
-      scrollDom.current.scroll(left,0)
+      const left = active.offsetLeft - (className === 'active' ? 13 : 0);
+      Dom.current.scroll(left,0)
     })
   }
   // initdata
@@ -104,17 +99,32 @@ function Detail(props) {
   };
   // 更多And下载
   const more = () =>{
+    const [separaIdx, setSeparaIdx] = useState(0);
     const list = separation((urlList).map((v,i)=>({...v,i:i+1})), 50);
+    const searchIdx = () => {
+      let idx = 0;
+      list.forEach((item, index) => {
+      item.forEach((item)=> {
+          if(item.i === curIndex+1) {
+            idx = index 
+          }
+        })
+      })
+      setSeparaIdx(idx);
+    }
+    useEffect(() => {
+      searchIdx();
+    }, []);
       return (
         <div>
         <div className={styles.moreTitle}>{ isDownLoad ? '下载': '选集'}</div>
-        <div className={styles.tag}>
+        <div ref={scrollMoreDom} className={styles.tag} >
               <div className={styles.tagInner}>
                 {
                   list.map((item,index) => (
                     <div 
                       key={index}
-                      onClick={() => switchSepara(index)}
+                      onClick={() => setSeparaIdx(index)}
                       className={`${styles.separation} ${
                       index === separaIdx ? styles.separationActive : ""}`}
                       >
@@ -167,7 +177,6 @@ function Detail(props) {
               <div className={styles.tagInner}>
                 {urlList.map((item, index) => (
                   <div
-                    ref={activeDom}
                     key={index}
                     onClick={() => switchUrl(index)}
                     className={`${styles.tvlist} ${

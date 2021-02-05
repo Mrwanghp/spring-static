@@ -2,12 +2,13 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.less';
 function SeaDrawer(props) {
+    console.log(222)
     const { open, Slot, callback, height } = props;
     const close = (event) => {
         event.stopPropagation();
         callback();
     }
-    // return useMemo(()=>{
+    return useMemo(()=>{
         return (
             <div onClick={close} className={styles.popup} style={{width:open ? '100%': '0%'}}>
                 <div 
@@ -19,7 +20,7 @@ function SeaDrawer(props) {
                 </div>
             </div>
         );
-    // },[open,Slot])
+    },[open])
 }
 
 SeaDrawer.propTypes = {
@@ -33,4 +34,4 @@ SeaDrawer.defaultProps = {
     height: '40%',
     position: 'left'
 }
-export default SeaDrawer;
+export default (SeaDrawer);
