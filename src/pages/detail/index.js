@@ -13,7 +13,7 @@ function Detail(props) {
   const [open, setOpen] = useState(false); // 简介
   const [loading, setLoading] = useState(true); //initloading
   const [urlList, setUrlList] = useState([]); // 选集
-  const [curIndex, setCurIndex] = useState(0); //
+  const [curIndex, setCurIndex] = useState(0); // 
   const [urlMore, setUrlMore] = useState(false); // 查看更多And下载
   const [isDownLoad, setIsDownLoad] = useState(0); // 是否下载弹框
   const [downLoadList, setDownLoadList] = useState([]); //下载列表
@@ -36,7 +36,7 @@ function Detail(props) {
   const openMoreDrawer =(type) => {
     setIsDownLoad(type)
     setUrlMore(true);
-    scroll('separationActive', scrollMoreDom);
+    urlList.length > 50 && scroll('separationActive', scrollMoreDom);
   }
   // 选集切换
   const switchUrl = (index) => {
@@ -121,7 +121,7 @@ function Detail(props) {
         <div ref={scrollMoreDom} className={styles.tag} >
               <div className={styles.tagInner}>
                 {
-                  list.map((item,index) => (
+                  list.length > 1 && list.map((item,index) => (
                     <div 
                       key={index}
                       onClick={() => setSeparaIdx(index)}
